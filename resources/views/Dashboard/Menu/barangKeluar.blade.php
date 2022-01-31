@@ -47,8 +47,8 @@
 									<div class="form-group col-md-6">
 										<label for="inputbarang">Barang</label>
 										<select id="inputbarang" class="form-control" name="kode_barang">
-											@foreach($db as $db)
 											<option selected>...</option>
+											@foreach($db as $db)
 											<option value="{{ $db->kode_barang }}">{{ $db->nama_barang }}</option>
 											@endforeach
 										</select>
@@ -68,6 +68,61 @@
 				<div class="col-sm-12 col-md-3">
 					
 				</div>
+			</div>
+		</div>
+		<!-- TABLE BARANG MASUK -->
+		@if($message = Session::get('kosong'))
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>{{ $message }}</strong>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		</div>
+		@endif
+		<div class="col-xl-12">
+			<div class="row">
+				<div class="col-sm-12 col-md-2">
+
+				</div>
+				<div class="col-sm-12 col-md-8">
+					<div class="card">
+						<div class="card-header">
+							<h5>Daftar Tabel Barang Keluar</h5>
+							<span class="d-block m-t-5">berikut daftar tabel yang diurutkan <strong>berdasarkan hari</strong></span>
+
+
+							<a href="/kosong2" class="btn btn-warning mt-2 col-md-12">Kosongkan Data</a>
+						</div>
+						<div class="card-body table-border-style">
+							<div class="table-responsive">
+								<table class="table table-dark">
+									<thead>
+										<tr>
+											<th></th>
+											<th>Barang</th>
+											<th>Stok</th>
+											<th>Tanggal Keluar</th>
+										</tr>
+									</thead>
+									<tbody>
+										@php
+										$i = 1;
+										@endphp
+										@foreach($bm as $bm)
+										<tr>
+											<td>{{ $i++ }}</td>
+											<td>{{ $bm->nama_barang }}</td>
+											<td>{{ $bm->stok }}</td>
+											<td>{{ $bm->created_at }}</td>
+										</tr>
+										@endforeach
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-12 col-md-2">
+
+				</div>	
 			</div>
 		</div>
 		<!-- [ Main Content ] end -->

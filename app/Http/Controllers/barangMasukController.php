@@ -18,18 +18,14 @@ class barangMasukController extends Controller
     {
 
         $bm = DB::table('barang_masuk')->join('data_barang','barang_masuk.kode_barang','=', 'data_barang.kode_barang')
-                             ->select('data_barang.*', 'barang_masuk.*')
-                             ->get();
-
-        $bmS = DB::table('barang_masuk')
                              ->join('supplier','barang_masuk.kode_supplier','=', 'supplier.kode_supplier')
-                             ->select('supplier.*', 'barang_masuk.*')
+                             ->select('data_barang.nama_barang', 'barang_masuk.*', 'supplier.nama_supplier')
                              ->get();
 
         $supplier = Supplier::get()->all();
         $db = dataBarang::get()->all();                     
 
-        return view('Dashboard.Menu.barangMasuk', compact('bm', 'bmS', 'db', 'supplier'));
+        return view('Dashboard.Menu.barangMasuk', compact('bm', 'db', 'supplier'));
     }
 
     /**
@@ -107,4 +103,11 @@ class barangMasukController extends Controller
     {
         //
     }
+
+    public function tampildata(){
+
+        return view('Dashboard.Cetak.cetakbarangmasuk');
+
+    }
+
 }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,3 +32,25 @@ Route::resource('barangMasuk', 'App\Http\Controllers\barangMasukController');
 Route::resource('barangKeluar', 'App\Http\Controllers\barangKeluarController');
 
 Route::resource('supplier', 'App\Http\Controllers\SupplierController');
+
+Route::get('kosong', function () {
+
+    DB::table('barang_masuk')->truncate();
+
+    return redirect('barangMasuk')->with(['kosong' => 'data barang masuk berhasil dikosongkan']);
+
+});
+
+Route::get('kosong2', function () {
+
+    DB::table('barang_keluars')->truncate();
+
+    return redirect('barangKeluar')->with(['kosong' => 'data barang keluar berhasil dikosongkan']);
+
+});
+
+Route::get('tampilsupplier', 'App\Http\Controllers\SupplierController@tampildata');
+Route::get('tampilbm', 'App\Http\Controllers\barangMasukController@tampildata');
+Route::get('tampilbk', 'App\Http\Controllers\barangKeluarController@tampildata');
+Route::get('cetaks', 'App\Http\Controllers\SupplierController@cetak');
+

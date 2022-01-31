@@ -18,7 +18,7 @@ class barangKeluarController extends Controller
     {
 
         $bm = DB::table('barang_keluars')->join('data_barang','barang_keluars.kode_barang','=', 'data_barang.kode_barang')
-                             ->select('data_barang.*', 'barang_keluars.*')
+                             ->select('data_barang.nama_barang', 'barang_keluars.*')
                              ->get();
         
         $db = dataBarang::get()->all();
@@ -100,4 +100,11 @@ class barangKeluarController extends Controller
     {
         //
     }
+
+    public function tampildata(){
+
+        return view('Dashboard.Cetak.cetakbarangkeluar');
+
+    }
+
 }

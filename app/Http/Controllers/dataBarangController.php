@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\dataBarang;
+use App\Models\barangMasuk;
+use App\Models\barangKeluar;
 use Illuminate\Support\Facades\DB;
 
 class dataBarangController extends Controller
@@ -85,7 +87,7 @@ class dataBarangController extends Controller
     {
         $getID = dataBarang::find($id);
         $getID->update([
-            
+
             'kode_barang'=>$request->kode_barang,
             'nama_barang'=>$request->nama_barang,
             'harga'=>$request->harga,
@@ -104,9 +106,24 @@ class dataBarangController extends Controller
      */
     public function destroy($id)
     {
-        $getIDtoDelete = dataBarang::find($id);
-        $getIDtoDelete->delete();
 
-        return redirect('dataBarang');
-    }
+        $bm = barangMasuk::all();
+        $bk = barangKeluar::all();
+        $jumlah = count($bm) + count($bk);
+
+        if ($jumlah == 0) {
+
+            $getIDtoDelete = dataBarang::find($id);
+            $getIDtoDelete->delete();
+
+            return redirect('dataBarang')->with(['sukses' => 'data barang berhasil dihapus']);
+
+        }else{
+
+           return redirect('dataBarang')->with(['eror' => 'data barang tidak bisa dihapus, silahkan rekap data, lalu kosongkan daftar dimenu']);
+
+       }
+
+        // return redirect('dataBarang');
+   }
 }

@@ -83,9 +83,9 @@
 					<li class="nav-item pcoded-hasmenu">
 						<a href="#" class="nav-link "><span class="pcoded-micon"><i class="feather icon-printer"></i></span><span class="pcoded-mtext">Rekap Data</span></a>
 						<ul class="pcoded-submenu">
-							<li><a href="layout-vertical.html" target="_blank">Suplier</a></li>
-							<li><a href="layout-vertical.html" target="_blank">Barang Masuk</a></li>
-							<li><a href="layout-horizontal.html" target="_blank">Barang Keluar</a></li>
+							<li><a href="/tampilsupplier">Suplier</a></li>
+							<li><a href="/tampilbm">Barang Masuk</a></li>
+							<li><a href="/tampilbk">Barang Keluar</a></li>
 						</ul>
 					</li>
 				</ul>

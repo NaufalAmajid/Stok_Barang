@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Supplier;
+use PDF;
 
 class SupplierController extends Controller
 {
@@ -105,8 +106,25 @@ class SupplierController extends Controller
     public function destroy($id)
     {
         $getIDtoDelete = Supplier::find($id);
-     $getIDtoDelete->delete();
+        $getIDtoDelete->delete();
 
-     return redirect('supplier');
- }
+        return redirect('supplier');
+    }
+
+    public function tampildata(){
+
+        $dasu = Supplier::latest()->get();
+
+        return view('Dashboard.Cetak.cetaksupplier', compact('dasu'));
+
+    }
+
+    public function cetak()
+    {
+        $ds = Supplier::latest()->get();
+ 
+        $pdf = PDF::loadview('Dashboard.Cetak.Hasil.supplier',compact('ds'));
+        return $pdf->download('laporan-supplier.pdf');
+    }
+
 }
