@@ -38,8 +38,8 @@
 					<div class="main-menu-header">
 						<img class="img-radius" src="{{ asset('template/dist/assets/images/user/avatar-2.jpg') }}" alt="User-Profile-Image">
 						<div class="user-details">
-							<span>Restu</span>
-							<div id="more-details">Freshgradute<i class="fa fa-chevron-down m-l-5"></i></div>
+							<span>Admin</span>
+							<div id="more-details">Aston Printer<i class="fa fa-chevron-down m-l-5"></i></div>
 						</div>
 					</div>
 					<div class="collapse" id="nav-user-link">
@@ -102,7 +102,7 @@
 			<a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
 			<a href="#!" class="b-brand">
 				<!-- ========   change your logo hear   ============ -->
-				<img src="{{ asset('template/dist/assets/images/logo.png') }}" alt="" class="logo">
+				<img src="{{ asset('template/dist/assets/images/logoAP.png') }}" alt="" class="logo">
 				<img src="{{ asset('template/dist/assets/images/logo-icon.png') }}" alt="" class="logo-thumb">
 			</a>
 			<a href="#!" class="mob-toggler">
@@ -120,20 +120,7 @@
 						</button>
 					</div>
 				</li>
-				<li class="nav-item">
-					<div class="dropdown">
-						<a class="dropdown-toggle h-drop" href="#" data-toggle="dropdown">
-							Dropdown
-						</a>
-						<div class="dropdown-menu profile-notification ">
-							<ul class="pro-body">
-								<li><a href="user-profile.html" class="dropdown-item"><i class="fas fa-circle"></i> Profile</a></li>
-								<li><a href="email_inbox.html" class="dropdown-item"><i class="fas fa-circle"></i> My Messages</a></li>
-								<li><a href="auth-signin.html" class="dropdown-item"><i class="fas fa-circle"></i> Lock Screen</a></li>
-							</ul>
-						</div>
-					</div>
-				</li>
+				
 			</ul>
 			<ul class="navbar-nav ml-auto">
 				<li>

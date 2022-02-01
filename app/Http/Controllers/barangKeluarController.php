@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\dataBarang;
 use App\Models\barangKeluar;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class barangKeluarController extends Controller
 {
@@ -18,8 +19,8 @@ class barangKeluarController extends Controller
     {
 
         $bm = DB::table('barang_keluars')->join('data_barang','barang_keluars.kode_barang','=', 'data_barang.kode_barang')
-                             ->select('data_barang.nama_barang', 'barang_keluars.*')
-                             ->get();
+        ->select('data_barang.nama_barang', 'barang_keluars.*')
+        ->get();
         
         $db = dataBarang::get()->all();
 
@@ -103,8 +104,22 @@ class barangKeluarController extends Controller
 
     public function tampildata(){
 
-        return view('Dashboard.Cetak.cetakbarangkeluar');
+        $bk = barangKeluar::join('data_barang','barang_keluars.kode_barang','=', 'data_barang.kode_barang')
+        ->select('data_barang.nama_barang', 'barang_keluars.*')
+        ->get();
 
+        return view('Dashboard.Cetak.cetakbarangkeluar', compact('bk'));
+
+    }
+
+    public function cetak()
+    {
+        $bk = barangKeluar::join('data_barang','barang_keluars.kode_barang','=', 'data_barang.kode_barang')
+        ->select('data_barang.nama_barang', 'barang_keluars.*')
+        ->latest()->get();
+
+        $pdf = PDF::loadview('Dashboard.Cetak.Hasil.barangkeluar',compact('bk'));
+        return $pdf->download('laporan-barang-keluar.pdf');
     }
 
 }

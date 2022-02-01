@@ -6,6 +6,7 @@ use App\Models\barangMasuk;
 use App\Models\Supplier;
 use App\Models\dataBarang;
 use Illuminate\Http\Request;
+use PDF;
 
 class barangMasukController extends Controller
 {
@@ -18,9 +19,9 @@ class barangMasukController extends Controller
     {
 
         $bm = DB::table('barang_masuk')->join('data_barang','barang_masuk.kode_barang','=', 'data_barang.kode_barang')
-                             ->join('supplier','barang_masuk.kode_supplier','=', 'supplier.kode_supplier')
-                             ->select('data_barang.nama_barang', 'barang_masuk.*', 'supplier.nama_supplier')
-                             ->get();
+        ->join('supplier','barang_masuk.kode_supplier','=', 'supplier.kode_supplier')
+        ->select('data_barang.nama_barang', 'barang_masuk.*', 'supplier.nama_supplier')
+        ->get();
 
         $supplier = Supplier::get()->all();
         $db = dataBarang::get()->all();                     
@@ -106,8 +107,27 @@ class barangMasukController extends Controller
 
     public function tampildata(){
 
-        return view('Dashboard.Cetak.cetakbarangmasuk');
+        $bm = barangMasuk::join('data_barang','barang_masuk.kode_barang','=','data_barang.kode_barang')
+        ->join('supplier','barang_masuk.kode_supplier','=','supplier.kode_supplier')
+        ->select('barang_masuk.*', 'data_barang.nama_barang','supplier.nama_supplier')
 
+        ->latest()->get();
+
+        return view('Dashboard.Cetak.cetakbarangmasuk', compact('bm'));
+
+    }
+
+
+    public function cetak()
+    {
+        $bm = barangMasuk::join('data_barang','barang_masuk.kode_barang','=','data_barang.kode_barang')
+        ->join('supplier','barang_masuk.kode_supplier','=','supplier.kode_supplier')
+        ->select('barang_masuk.*', 'data_barang.nama_barang','supplier.nama_supplier')
+
+        ->latest()->get();
+
+        $pdf = PDF::loadview('Dashboard.Cetak.Hasil.barangmasuk',compact('bm'));
+        return $pdf->download('laporan-barang-masuk.pdf');
     }
 
 }

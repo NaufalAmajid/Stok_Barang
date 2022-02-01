@@ -32,7 +32,7 @@
 							<i class="fas fa-file-import"></i>
 						</div>
 						<div class="col-sm-9">
-							<h4>4000 +</h4>
+							<h4>{{ $jbm }}</h4>
 							<h6>Barang Masuk</h6>
 						</div>
 					</div>
@@ -49,7 +49,7 @@
 							<i class="fas fa-file-export"></i>
 						</div>
 						<div class="col-sm-9">
-							<h4>17</h4>
+							<h4>{{ $jbk }}</h4>
 							<h6>Barang Keluar</h6>
 						</div>
 					</div>
@@ -66,7 +66,7 @@
 							<i class="fas fa-users"></i>
 						</div>
 						<div class="col-sm-9">
-							<h4>20</h4>
+							<h4>{{ $js }}</h4>
 							<h6>Supplier</h6>
 						</div>
 					</div>

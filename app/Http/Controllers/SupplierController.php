@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Supplier;
+use App\Models\barangMasuk;
 use PDF;
 
 class SupplierController extends Controller
@@ -105,10 +106,22 @@ class SupplierController extends Controller
      */
     public function destroy($id)
     {
-        $getIDtoDelete = Supplier::find($id);
-        $getIDtoDelete->delete();
+        $hitungbm = barangMasuk::all();
+        $bm = count($hitungbm);
 
-        return redirect('supplier');
+        if ($bm == 0) {
+
+            $getIDtoDelete = Supplier::find($id);
+            $getIDtoDelete->delete();
+
+            return redirect('supplier')->with(['sukses' => 'data supplier berhasil dihapus']);
+        }else{
+
+            return redirect('supplier')->with(['gagal' => 'nama supplier masih ada di menu barang masuk, rekap barang masuk terlebih dahulu, lalu kosongkan datanya']);
+
+        }
+
+        
     }
 
     public function tampildata(){
@@ -122,7 +135,7 @@ class SupplierController extends Controller
     public function cetak()
     {
         $ds = Supplier::latest()->get();
- 
+
         $pdf = PDF::loadview('Dashboard.Cetak.Hasil.supplier',compact('ds'));
         return $pdf->download('laporan-supplier.pdf');
     }

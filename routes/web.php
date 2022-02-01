@@ -20,7 +20,14 @@ Route::get('/', function () {
 
 Route::get('dashboard', function () {
 
-    return view('Dashboard.Menu.dashboard');
+    $bm = DB::table('barang_masuk')->get();
+    $jbm =count($bm);
+    $bk = DB::table('barang_keluars')->get();
+    $jbk = count($bk);
+    $s = DB::table('supplier')->get();
+    $js = count($s); 
+
+    return view('Dashboard.Menu.dashboard', compact('jbm', 'jbk', 'js'));
 
 });
 
@@ -53,4 +60,6 @@ Route::get('tampilsupplier', 'App\Http\Controllers\SupplierController@tampildata
 Route::get('tampilbm', 'App\Http\Controllers\barangMasukController@tampildata');
 Route::get('tampilbk', 'App\Http\Controllers\barangKeluarController@tampildata');
 Route::get('cetaks', 'App\Http\Controllers\SupplierController@cetak');
+Route::get('cetakbm', 'App\Http\Controllers\barangMasukController@cetak');
+Route::get('cetakbk', 'App\Http\Controllers\barangKeluarController@cetak');
 
