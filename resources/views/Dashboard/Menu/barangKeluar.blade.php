@@ -46,7 +46,7 @@
 								<div class="form-row">
 									<div class="form-group col-md-6">
 										<label for="inputbarang">Barang</label>
-										<select id="inputbarang" class="form-control" name="kode_barang">
+										<select id="inputbarang" class="form-control" name="kode_barang" required>
 											<option selected>...</option>
 											@foreach($db as $db)
 											<option value="{{ $db->kode_barang }}">{{ $db->nama_barang }}</option>
@@ -55,7 +55,7 @@
 									</div>
 									<div class="form-group col-md-6">
 										<label for="inputstok">Stok Berkurang</label>
-										<input type="number" class="form-control" id="inputstok" placeholder="stok..." name="stok" autocomplete="off">
+										<input type="number" class="form-control" id="inputstok" placeholder="stok..." name="stok" autocomplete="off" required>
 									</div>
 								</div>
 								<div class="form-group">	

@@ -9,6 +9,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<meta name="description" content="" />
 	<meta name="keywords" content="">
 	<meta name="author" content="Phoenixcoded" />
@@ -18,17 +19,8 @@
 	<!-- vendor css -->
 	<link rel="stylesheet" href="{{ asset('template/dist/assets/css/style.css') }}">
 
-
-
 </head>
 <body class="">
-	<!-- [ Pre-loader ] start -->
-	<div class="loader-bg">
-		<div class="loader-track">
-			<div class="loader-fill"></div>
-		</div>
-	</div>
-	<!-- [ Pre-loader ] End -->
 	<!-- [ navigation menu ] start -->
 	<nav class="pcoded-navbar  ">
 		<div class="navbar-wrapper  ">
@@ -39,32 +31,28 @@
 						<img class="img-radius" src="{{ asset('template/dist/assets/images/user/avatar-2.jpg') }}" alt="User-Profile-Image">
 						<div class="user-details">
 							<span>Admin</span>
-							<div id="more-details">Aston Printer<i class="fa fa-chevron-down m-l-5"></i></div>
+							<div id="more-details">{{ Auth::user()->name }}<i class="fa fa-chevron-down m-l-5"></i></div>
 						</div>
 					</div>
 					<div class="collapse" id="nav-user-link">
 						<ul class="list-unstyled">
-							<li class="list-group-item"><a href="user-profile.html"><i class="feather icon-user m-r-5"></i>View Profile</a></li>
-							<li class="list-group-item"><a href="#!"><i class="feather icon-settings m-r-5"></i>Settings</a></li>
-							<li class="list-group-item"><a href="auth-normal-sign-in.html"><i class="feather icon-log-out m-r-5"></i>Logout</a></li>
+							<li class="list-group-item" id="btnLogout"><a href="#"><i class="feather icon-log-out m-r-5"></i>Logout</a></li>
 						</ul>
 					</div>
 				</div>
 				
 				<ul class="nav pcoded-inner-navbar ">
+					@can('isOwner')
+					<li class="nav-item {{ Request::is('owner') ? 'active' : '' }}">
+						<a href="{{ route('owner') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-slack"></i></span><span class="pcoded-mtext">Owner Page</span></a>
+					</li>
+					@else
 					<li class="nav-item pcoded-menu-caption">
 						<label>Navigasi</label>
 					</li>
 					<li class="nav-item">
 						<a href="{{ url('dashboard') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
 					</li>
-					<!-- <li class="nav-item pcoded-hasmenu">
-					    <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-layout"></i></span><span class="pcoded-mtext">Page layouts</span></a>
-					    <ul class="pcoded-submenu">
-					        <li><a href="layout-vertical.html" target="_blank">Vertical</a></li>
-					        <li><a href="layout-horizontal.html" target="_blank">Horizontal</a></li>
-					    </ul>
-					</li> -->
 					<li class="nav-item pcoded-menu-caption">
 						<label>Menu</label>
 					</li>
@@ -88,6 +76,7 @@
 							<li><a href="/tampilbk">Barang Keluar</a></li>
 						</ul>
 					</li>
+					@endcan
 				</ul>
 				
 			</div>
@@ -99,7 +88,7 @@
 		
 
 		<div class="m-header">
-			<a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
+			<a class="mobile-menu" id="mobile-collapse" href="#"><span></span></a>
 			<a href="#!" class="b-brand">
 				<!-- ========   change your logo hear   ============ -->
 				<img src="{{ asset('template/dist/assets/images/logoAP.png') }}" alt="" class="logo">
@@ -129,18 +118,13 @@
 							<i class="feather icon-user"></i>
 						</a>
 						<div class="dropdown-menu dropdown-menu-right profile-notification">
-							<div class="pro-head">
+							<div class="pro-head" id="btnLogout2">
 								<img src="{{ asset('template/dist/assets/images/user/avatar-1.jpg') }}" class="img-radius" alt="User-Profile-Image">
-								<span>Restu</span>
-								<a href="auth-signin.html" class="dud-logout" title="Logout">
+								<span>{{ strtoupper(Auth::user()->username) }}</span>
+								<a href="#" class="dud-logout" title="Logout">
 									<i class="feather icon-log-out"></i>
 								</a>
 							</div>
-							<ul class="pro-body">
-								<li><a href="user-profile.html" class="dropdown-item"><i class="feather icon-user"></i> Profile</a></li>
-								<li><a href="email_inbox.html" class="dropdown-item"><i class="feather icon-mail"></i> My Messages</a></li>
-								<li><a href="auth-signin.html" class="dropdown-item"><i class="feather icon-lock"></i> Lock Screen</a></li>
-							</ul>
 						</div>
 					</div>
 				</li>
@@ -168,9 +152,44 @@
 
 	<!-- custom-chart js -->
 	<script src="{{ asset('template/dist/assets/js/pages/dashboard-main.js') }}"></script>
+	<script src="{{asset('jquery-3.6.0.min.js')}}"></script>
+	<script src="{{asset('sweetalert2@11.js')}}"></script>
+
 
 	<script>
+		$('#btnLogout, #btnLogout2').click(function () {
 
+			const user = '{{ Auth::user()->name }}';
+			const token = $("meta[name='csrf-token']").attr("content");
+
+		Swal.fire({
+			  title: 'Apakah Anda Yakin?',
+			  text:  user + ' akan Logout',
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: 'Ya',
+			  cancelButtonText: 'Tidak'
+			}).then((result) => {
+			  if (result.isConfirmed) {
+			    	$.ajax({
+                            type: 'POST',
+                            url: '{{ route('logout') }}',
+                            data: {
+                                "_token": token,
+                                "logout": true
+                            },
+                            success: function(data) {
+                                const result = JSON.parse(data);
+                                if (result.status == 'success') {
+                                    window.location.href = result.url;
+                                }
+                            }
+                        });
+			  }
+			})
+		})
 	</script>
 
 </body>

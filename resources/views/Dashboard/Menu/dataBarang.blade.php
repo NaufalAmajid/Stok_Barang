@@ -95,7 +95,7 @@
 												<td>{{ $i++ }}</td>
 												<td>{{ $db->kode_barang }}</td>
 												<td>{{ $db->nama_barang }}</td>
-												<td>{{ $db->harga }}</td>
+												<td>@currency($db->harga)</td>
 												<td>{{ $db->stok }}</td>
 												<td>
 													<button type="button" class="btn  btn-icon btn-primary tooltip-test" title="edit" data-toggle="modal" data-target="#editdatabarang-{{ $db->id }}"><i class="feather icon-edit"></i></button>

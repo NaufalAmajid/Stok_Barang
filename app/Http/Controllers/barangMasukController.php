@@ -47,11 +47,18 @@ class barangMasukController extends Controller
      */
     public function store(Request $request)
     {
+
+        $validationData =  $request->validate([
+            'kode_barang' => 'required',
+            'kode_supplier' => 'required',
+            'stok' => 'required'
+        ]);
+
         barangMasuk::create([
 
-            'kode_barang'=>$request->kode_barang,
-            'kode_supplier'=>$request->kode_supplier,
-            'stok'=>$request->stok
+            'kode_barang'=>$validationData['kode_barang'],
+            'kode_supplier'=>$validationData['kode_supplier'],
+            'stok'=>$validationData['stok']
 
 
         ]);

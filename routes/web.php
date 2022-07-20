@@ -29,16 +29,19 @@ Route::get('dashboard', function () {
 
     return view('Dashboard.Menu.dashboard', compact('jbm', 'jbk', 'js'));
 
-});
+})->middleware('auth');
 
+Route::get('login', 'App\Http\Controllers\LoginController@index')->name('login')->middleware('guest');
+Route::post('login', 'App\Http\Controllers\LoginController@login')->name('prosesLogin')->middleware('guest');
+Route::post('logout', 'App\Http\Controllers\LoginController@logout')->name('logout')->middleware('auth');
 
-Route::resource('dataBarang', 'App\Http\Controllers\dataBarangController');
+Route::resource('dataBarang', 'App\Http\Controllers\dataBarangController')->middleware('auth');
 
-Route::resource('barangMasuk', 'App\Http\Controllers\barangMasukController');
+Route::resource('barangMasuk', 'App\Http\Controllers\barangMasukController')->middleware('auth');
 
-Route::resource('barangKeluar', 'App\Http\Controllers\barangKeluarController');
+Route::resource('barangKeluar', 'App\Http\Controllers\barangKeluarController')->middleware('auth');
 
-Route::resource('supplier', 'App\Http\Controllers\SupplierController');
+Route::resource('supplier', 'App\Http\Controllers\SupplierController')->middleware('auth');
 
 Route::get('kosong', function () {
 
@@ -46,7 +49,7 @@ Route::get('kosong', function () {
 
     return redirect('barangMasuk')->with(['kosong' => 'data barang masuk berhasil dikosongkan']);
 
-});
+})->middleware('auth');
 
 Route::get('kosong2', function () {
 
@@ -54,12 +57,14 @@ Route::get('kosong2', function () {
 
     return redirect('barangKeluar')->with(['kosong' => 'data barang keluar berhasil dikosongkan']);
 
-});
+})->middleware('auth');
 
-Route::get('tampilsupplier', 'App\Http\Controllers\SupplierController@tampildata');
-Route::get('tampilbm', 'App\Http\Controllers\barangMasukController@tampildata');
-Route::get('tampilbk', 'App\Http\Controllers\barangKeluarController@tampildata');
-Route::get('cetaks', 'App\Http\Controllers\SupplierController@cetak');
-Route::get('cetakbm', 'App\Http\Controllers\barangMasukController@cetak');
-Route::get('cetakbk', 'App\Http\Controllers\barangKeluarController@cetak');
+Route::get('tampilsupplier', 'App\Http\Controllers\SupplierController@tampildata')->middleware('auth');
+Route::get('tampilbm', 'App\Http\Controllers\barangMasukController@tampildata')->middleware('auth');
+Route::get('tampilbk', 'App\Http\Controllers\barangKeluarController@tampildata')->middleware('auth');
+Route::get('cetaks', 'App\Http\Controllers\SupplierController@cetak')->middleware('auth');
+Route::get('cetakbm', 'App\Http\Controllers\barangMasukController@cetak')->middleware('auth');
+Route::get('cetakbk', 'App\Http\Controllers\barangKeluarController@cetak')->middleware('auth');
+
+Route::get('ower', 'App\Http\Controllers\OwnerController@index')->name('owner')->middleware('auth');
 
